@@ -35,6 +35,6 @@ jobs:
             echo "Service did not become healthy in time"
             exit 1
             
-           - name: Clean up
-            if: always()
-            run: docker-compose down
+      - name: Clean up
+        if: always()
+        run: docker-compose down
