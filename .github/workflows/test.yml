@@ -12,28 +12,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout repository code
+        uses: actions/checkout@v4
 
       - name: Build and start services
-        run: docker compose up --build -d
+        run: docker-compose up --build -d
 
       - name: Wait for services to start
         run: |
-          echo "Waiting for service to become healthy..."
+          echo "Waiting for service to be ready..."
           for i in {1..30}; do
-            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/health)
-            if [ "$STATUS_CODE" -eq 200 ]; then
-              echo "Service is healthy (HTTP 200)"
-              exit 0
-            else
-               echo "Waiting... attempt $i/30 (got HTTP $STATUS_CODE)"
-               sleep 2
+            if curl -s http://localhost:8000/healthz > /dev/null; then
+              echo "Service is up!"
+              break
             fi
+            echo "Service not ready yet... retrying in 2 seconds"
+            sleep 2
           done
-          echo "Service did not become healthy in time"
-          exit 1
-            
-      - name: Clean up
+      - name: Verify /health endpoint returns HTTP 200
+        run: |
+          echo "Checking /health endpoint..."
+          http_status=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8000/health)
+          if [ "$http_status" -ne 200 ]; then
+            echo "Expected HTTP 200 but got $http_status"
+            exit 1
+          fi
+          echo "✅ /health returned HTTP 200"
+          
+      - name: Stop docker container and Clean up
         if: always()
         run: docker compose down
