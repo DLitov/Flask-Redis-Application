@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-health:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,7 @@ jobs:
             echo "Service not ready yet... retrying in 2 seconds"
             sleep 2
           done
+          
       - name: Verify /health endpoint returns HTTP 200
         run: |
           echo "Checking /health endpoint..."
