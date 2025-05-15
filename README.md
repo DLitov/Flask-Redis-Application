@@ -1,12 +1,12 @@
 # Flask and Redis App with Docker Compose and GitHub Actions
 
-This is a Flask application that uses Redis to count visits. It includes:
+This is a Flask application that uses Redis to count visits and have a healthcheck. It includes:
 
 - A main page (`/`)
 - A health check endpoint (`/health`)
 - A visits counter endpoint (`/visits`)
 - Dockerized services using Docker Compose
-- CI pipeline via GitHub Actions with Docker healthcheck integrationrk-Assignment
+- CI pipeline via GitHub Actions with Docker healthcheck integration
 
 ## Features
 
@@ -14,7 +14,7 @@ This is a Flask application that uses Redis to count visits. It includes:
 - **Redis** to store a persistent visit counter
 - **Docker Compose** to orchestrate services
 - **Health checks** for both Redis and Flask
-- **GitHub Actions** CI pipeline that uses container health status (no curl needed externally)
+- **GitHub Actions** CI pipeline that uses container health status
 
 ## Project Structure
 
@@ -28,13 +28,14 @@ flask_redis_app/
 └── .github/
 └── workflows/
 
-To run it locally (bash):
+## Usage
+In bash:
 docker-compose up --build
 
 Visit in browser:
-http://localhost:5000 → Main page
-http://localhost:5000/health → Health check
-http://localhost:5000/visits → Visit counter (stored in Redis)
+http://localhost:8000 → Main page
+http://localhost:8000/health → Health check
+http://localhost:8000/visits → Visit counter (stored in Redis)
 
 To stop (bash):
 docker-compose down
