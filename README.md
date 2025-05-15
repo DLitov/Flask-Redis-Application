@@ -18,15 +18,15 @@ This is a Flask application that uses Redis to count visits and have a healthche
 
 ## Project Structure
 
-flask_redis_app/
-├── .gitignore
-├── Dockerfile
-├── README.md
-├── app.py
-├── docker-compose.yml
-├── requirements.txt
-└── .github/
-└── workflows/
+flask_redis_app/  
+├── .gitignore  
+├── Dockerfile  
+├── README.md  
+├── app.py  
+├── docker-compose.yml  
+├── requirements.txt  
+└── .github/  
+└── workflows/  
 
 ## Usage
 In bash:  
@@ -37,7 +37,7 @@ http://localhost:8000 → Main page
 http://localhost:8000/health → Health check  
 http://localhost:8000/visits → Visit counter (stored in Redis)  
 
-To stop (bash):
+To stop (bash):  
 docker-compose down
 
 ## Health Checks & GitHub Actions pipeline Testing
