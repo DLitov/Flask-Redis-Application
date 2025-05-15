@@ -28,7 +28,7 @@ flask_redis_app/
 └── .github/  
 └── workflows/  
 
-## Usage
+## How to build and run the application locally
 In bash:  
 docker-compose up --build
 
@@ -37,7 +37,7 @@ http://localhost:8000 → Main page
 http://localhost:8000/health → Health check  
 http://localhost:8000/visits → Visit counter (stored in Redis)  
 
-To stop (bash):  
+To stop (in bash):  
 docker-compose down
 
 ## Health Checks & GitHub Actions pipeline Testing
