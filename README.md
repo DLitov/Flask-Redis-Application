@@ -40,49 +40,25 @@ http://localhost:8000/visits → Visit counter (stored in Redis)
 To stop (bash):
 docker-compose down
 
-- Docker Compose Overview
-Redis:
-Use redis:alpine
+## Health Checks & GitHub Actions pipeline Testing
 
-Healthcheck via redis-cli ping
+### Health Checks
 
-Flask App
-Built from the local Dockerfile
+Both the **Redis** and **Flask** services are configured with health checks to ensure reliable startup and operation:
 
-Connects to Redis via service name (redis)
+- **Redis**: Uses the command `redis-cli ping` to confirm the Redis server is responsive.
+- **Flask App**: Periodically checks the `/health` endpoint to verify that the application is running and accessible.
 
-Healthcheck using Python's urllib to call /health inside the container
+The Flask service will only start after Redis passes its health check, ensuring service dependencies are met before proceeding.
 
-- GitHub Actions CI Pipeline
+### GitHub Actions CI Workflow
 
-The workflow automatically:
+This project includes a GitHub Actions workflow that automatically tests the application on each push or pull request to the `main` branch.
 
-Checks out code
+The CI pipeline performs the following steps:
 
-Builds Docker services
-
-Starts services using docker-compose up
-
-Waits for the Flask app to become healthy via internal Docker healthcheck
-
-Optionally runs tests (you can add pytest, etc.)
-
-Shuts down containers
-
-- Health Check Logic
-The workflow uses this logic to wait for readiness (no curl involved externally):
-
-in bash
-
-docker inspect --format='{{json .State.Health.Status}}' flask_app
-
-- Environment Variables
-
-REDIS_HOST=redis
-REDIS_PORT=6379
-
-- Endpoints
-Route	Method	Description
-/	GET	Welcome page
-/health	GET	Returns OK if app is healthy
-/visits	GET	Increments and returns visit count (Redis)
+1. **Checkout Code**: Pulls the latest version of the repository.
+2. **Build & Start Services**: Uses Docker Compose to build and run the Flask and Redis containers in detached mode.
+3. **Wait for Service Availability**: Repeatedly checks the `/healthz` endpoint (note: this should match your app's actual health check route) to ensure the Flask service is up and responsive.
+4. **Validate Health Endpoint**: Verifies that the `/health` endpoint returns HTTP status `200`, confirming the app is healthy.
+5. **Cleanup**: Shuts down and removes the Docker containers after the tests complete.
