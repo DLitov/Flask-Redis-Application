@@ -29,13 +29,13 @@ flask_redis_app/
 └── workflows/
 
 ## Usage
-In bash:
-#docker-compose up --build
+In bash:  
+docker-compose up --build
 
-Visit in browser:
-#http://localhost:8000 → Main page
-#http://localhost:8000/health → Health check
-#http://localhost:8000/visits → Visit counter (stored in Redis)
+Visit in browser:  
+http://localhost:8000 → Main page  
+http://localhost:8000/health → Health check  
+http://localhost:8000/visits → Visit counter (stored in Redis)  
 
 To stop (bash):
 docker-compose down
