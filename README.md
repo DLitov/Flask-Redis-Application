@@ -59,6 +59,6 @@ The CI pipeline performs the following steps:
 
 1. **Checkout Code**: Pulls the latest version of the repository.
 2. **Build & Start Services**: Uses Docker Compose to build and run the Flask and Redis containers in detached mode.
-3. **Wait for Service Availability**: Repeatedly checks the `/healthz` endpoint (note: this should match your app's actual health check route) to ensure the Flask service is up and responsive.
+3. **Wait for Service Availability**: Repeatedly checks the `/healthz` endpoint to ensure the Flask service is up and responsive.
 4. **Validate Health Endpoint**: Verifies that the `/health` endpoint returns HTTP status `200`, confirming the app is healthy.
 5. **Cleanup**: Shuts down and removes the Docker containers after the tests complete.
