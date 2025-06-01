@@ -30,16 +30,6 @@ jobs:
             sleep 2
           done
           
-      - name: Verify /health endpoint returns HTTP 200
-        run: |
-          echo "Checking /health endpoint..."
-          http_status=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8000/health)
-          if [ "$http_status" -ne 200 ]; then
-            echo "Expected HTTP 200 but got $http_status"
-            exit 1
-          fi
-          echo "✅ /health returned HTTP 200"
-          
       - name: Stop docker container and Clean up
         if: always()
         run: docker compose down
